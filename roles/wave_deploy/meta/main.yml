@@ -1,9 +1,9 @@
 ---
 galaxy_info:
   author: Steve Fulmer
-  description: Role wave_deploy for stevefulme1.h2o_ai
+  description: Role wave_deploy for stevefulme1.h2oai
   license: GPL-3.0-or-later
   min_ansible_version: '2.16'
   galaxy_tags:
-    - h2o_ai
+    - h2oai
 dependencies: []
