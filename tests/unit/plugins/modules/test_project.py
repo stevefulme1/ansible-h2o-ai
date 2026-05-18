@@ -5,7 +5,6 @@ __metaclass__ = type
 
 from unittest.mock import MagicMock, patch
 
-import pytest
 
 MODULE_PATH = "ansible_collections.stevefulme1.h2o_ai.plugins.modules.project"
 CLIENT_PATH = "ansible_collections.stevefulme1.h2o_ai.plugins.module_utils.api_client"
