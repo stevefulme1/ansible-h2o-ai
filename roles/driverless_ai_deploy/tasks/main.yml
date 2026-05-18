@@ -1,0 +1,9 @@
+---
+- name: Validate required variables
+  ansible.builtin.assert:
+    that: driverless_ai_deploy_api_url is defined
+    quiet: true
+
+- name: Execute driverless_ai_deploy
+  ansible.builtin.debug:
+    msg: "Role driverless_ai_deploy for stevefulme1.h2o_ai"

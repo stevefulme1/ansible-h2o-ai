@@ -1,0 +1,31 @@
+---
+namespace: stevefulme1
+name: h2o_ai
+version: 1.0.0
+readme: README.md
+authors:
+  - Steve Fulmer <sfulmer@redhat.com>
+description: >-
+  Ansible Collection for H2O.ai AI Cloud platform.
+  Provides modules for project, experiment, model, deployment, dataset,
+  pipeline, and Wave app management via the H2O.ai REST API.
+license:
+  - GPL-3.0-or-later
+tags:
+  - h2o
+  - ai
+  - ml
+  - mlops
+  - automl
+  - tools
+  - cloud
+  - data_science
+dependencies: {}
+repository: https://github.com/stevefulme1/ansible-h2o-ai
+documentation: https://github.com/stevefulme1/ansible-h2o-ai/blob/main/README.md
+homepage: https://github.com/stevefulme1/ansible-h2o-ai
+issues: https://github.com/stevefulme1/ansible-h2o-ai/issues
+build_ignore:
+  - .git
+  - .github
+  - tests/output

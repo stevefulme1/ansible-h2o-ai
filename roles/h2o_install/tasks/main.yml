@@ -1,0 +1,9 @@
+---
+- name: Validate required variables
+  ansible.builtin.assert:
+    that: h2o_install_api_url is defined
+    quiet: true
+
+- name: Execute h2o_install
+  ansible.builtin.debug:
+    msg: "Role h2o_install for stevefulme1.h2o_ai"
