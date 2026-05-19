@@ -1,0 +1,16 @@
+---
+argument_specs:
+  main:
+    short_description: "wave deploy"
+    options:
+      wave_deploy_api_url:
+        description: H2O API URL.
+        type: str
+      wave_deploy_api_key:
+        description: H2O API key for authentication.
+        type: str
+        no_log: true
+      wave_deploy_state:
+        description: Desired state.
+        type: str
+        default: present

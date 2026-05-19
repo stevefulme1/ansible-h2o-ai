@@ -1,0 +1,16 @@
+---
+argument_specs:
+  main:
+    short_description: "h2o install"
+    options:
+      h2o_install_api_url:
+        description: H2O API URL.
+        type: str
+      h2o_install_api_key:
+        description: H2O API key for authentication.
+        type: str
+        no_log: true
+      h2o_install_state:
+        description: Desired state.
+        type: str
+        default: present

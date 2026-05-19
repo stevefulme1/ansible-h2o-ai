@@ -1,0 +1,16 @@
+---
+argument_specs:
+  main:
+    short_description: "driverless ai deploy"
+    options:
+      driverless_ai_deploy_api_url:
+        description: H2O API URL.
+        type: str
+      driverless_ai_deploy_api_key:
+        description: H2O API key for authentication.
+        type: str
+        no_log: true
+      driverless_ai_deploy_state:
+        description: Desired state.
+        type: str
+        default: present
