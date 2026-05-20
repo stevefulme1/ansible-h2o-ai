@@ -1,11 +1,11 @@
 ---
 namespace: stevefulme1
 name: h2o_ai
-version: 1.0.1
+version: 0.0.1
 readme: README.md
 authors:
   - Steve Fulmer <sfulmer@redhat.com>
-description: >-
+description: "EXPERIMENTAL - proof of concept, not production ready. >-"
   Ansible Collection for H2O.ai AI Cloud platform.
   Provides modules for project, experiment, model, deployment, dataset,
   pipeline, and Wave app management via the H2O.ai REST API.
