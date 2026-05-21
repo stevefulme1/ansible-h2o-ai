@@ -1,0 +1,79 @@
+---
+- name: Create pipeline (check mode)
+  stevefulme1.h2o_ai.pipeline:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_pipeline_name }}"
+    description: Integration test pipeline
+    steps: "{{ oci_h2o_pipeline_steps }}"
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create pipeline
+  stevefulme1.h2o_ai.pipeline:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_pipeline_name }}"
+    description: Integration test pipeline
+    steps: "{{ oci_h2o_pipeline_steps }}"
+  register: _create
+- name: Verify pipeline was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.pipeline is defined
+- name: Create pipeline again (idempotent)
+  stevefulme1.h2o_ai.pipeline:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_pipeline_name }}"
+    description: Integration test pipeline
+    steps: "{{ oci_h2o_pipeline_steps }}"
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Update pipeline
+  stevefulme1.h2o_ai.pipeline:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_pipeline_name }}"
+    description: Updated integration test pipeline
+    steps: "{{ oci_h2o_pipeline_steps_updated }}"
+  register: _update
+- name: Verify pipeline was updated
+  ansible.builtin.assert:
+    that:
+      - _update is changed
+- name: Delete pipeline
+  stevefulme1.h2o_ai.pipeline:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_pipeline_name }}"
+    state: absent
+  register: _delete
+- name: Verify pipeline was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete pipeline again (idempotent)
+  stevefulme1.h2o_ai.pipeline:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_pipeline_name }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed

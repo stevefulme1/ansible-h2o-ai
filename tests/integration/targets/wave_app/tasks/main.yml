@@ -1,0 +1,83 @@
+---
+- name: Create wave_app (check mode)
+  stevefulme1.h2o_ai.wave_app:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_wave_app_name }}"
+    title: "{{ oci_h2o_wave_app_title }}"
+    description: Integration test Wave app
+    source_code_url: "{{ oci_h2o_wave_app_source }}"
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create wave_app
+  stevefulme1.h2o_ai.wave_app:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_wave_app_name }}"
+    title: "{{ oci_h2o_wave_app_title }}"
+    description: Integration test Wave app
+    source_code_url: "{{ oci_h2o_wave_app_source }}"
+  register: _create
+- name: Verify wave_app was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.wave_app is defined
+- name: Create wave_app again (idempotent)
+  stevefulme1.h2o_ai.wave_app:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_wave_app_name }}"
+    title: "{{ oci_h2o_wave_app_title }}"
+    description: Integration test Wave app
+    source_code_url: "{{ oci_h2o_wave_app_source }}"
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Update wave_app
+  stevefulme1.h2o_ai.wave_app:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_wave_app_name }}"
+    title: "{{ oci_h2o_wave_app_title }}"
+    description: Updated integration test Wave app
+    source_code_url: "{{ oci_h2o_wave_app_source }}"
+  register: _update
+- name: Verify wave_app was updated
+  ansible.builtin.assert:
+    that:
+      - _update is changed
+- name: Delete wave_app
+  stevefulme1.h2o_ai.wave_app:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_wave_app_name }}"
+    state: absent
+  register: _delete
+- name: Verify wave_app was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete wave_app again (idempotent)
+  stevefulme1.h2o_ai.wave_app:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    name: "{{ oci_h2o_wave_app_name }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed

@@ -1,0 +1,85 @@
+---
+- name: Create experiment (check mode)
+  stevefulme1.h2o_ai.experiment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_h2o_project_id }}"
+    dataset_id: "{{ oci_h2o_dataset_id }}"
+    target_column: "{{ oci_h2o_target_column }}"
+    task: classification
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create experiment
+  stevefulme1.h2o_ai.experiment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_h2o_project_id }}"
+    dataset_id: "{{ oci_h2o_dataset_id }}"
+    target_column: "{{ oci_h2o_target_column }}"
+    task: classification
+  register: _create
+- name: Verify experiment was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.experiment is defined
+- name: Create experiment again (idempotent)
+  stevefulme1.h2o_ai.experiment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_h2o_project_id }}"
+    dataset_id: "{{ oci_h2o_dataset_id }}"
+    target_column: "{{ oci_h2o_target_column }}"
+    task: classification
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Update experiment
+  stevefulme1.h2o_ai.experiment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_h2o_project_id }}"
+    dataset_id: "{{ oci_h2o_dataset_id }}"
+    target_column: "{{ oci_h2o_target_column }}"
+    task: regression
+  register: _update
+- name: Verify experiment was updated
+  ansible.builtin.assert:
+    that:
+      - _update is changed
+- name: Delete experiment
+  stevefulme1.h2o_ai.experiment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_h2o_project_id }}"
+    dataset_id: "{{ oci_h2o_dataset_id }}"
+    state: absent
+  register: _delete
+- name: Verify experiment was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete experiment again (idempotent)
+  stevefulme1.h2o_ai.experiment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_h2o_project_id }}"
+    dataset_id: "{{ oci_h2o_dataset_id }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed

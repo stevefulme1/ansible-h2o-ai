@@ -1,0 +1,81 @@
+---
+- name: Create deployment (check mode)
+  stevefulme1.h2o_ai.deployment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_h2o_deploy_model_id }}"
+    name: "{{ oci_h2o_deployment_name }}"
+    environment: "{{ oci_h2o_deployment_env }}"
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create deployment
+  stevefulme1.h2o_ai.deployment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_h2o_deploy_model_id }}"
+    name: "{{ oci_h2o_deployment_name }}"
+    environment: "{{ oci_h2o_deployment_env }}"
+  register: _create
+- name: Verify deployment was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.deployment is defined
+- name: Create deployment again (idempotent)
+  stevefulme1.h2o_ai.deployment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_h2o_deploy_model_id }}"
+    name: "{{ oci_h2o_deployment_name }}"
+    environment: "{{ oci_h2o_deployment_env }}"
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Update deployment
+  stevefulme1.h2o_ai.deployment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_h2o_deploy_model_id }}"
+    name: "{{ oci_h2o_deployment_name }}"
+    environment: "{{ oci_h2o_deployment_env_updated }}"
+  register: _update
+- name: Verify deployment was updated
+  ansible.builtin.assert:
+    that:
+      - _update is changed
+- name: Delete deployment
+  stevefulme1.h2o_ai.deployment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_h2o_deploy_model_id }}"
+    name: "{{ oci_h2o_deployment_name }}"
+    state: absent
+  register: _delete
+- name: Verify deployment was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete deployment again (idempotent)
+  stevefulme1.h2o_ai.deployment:
+    api_url: "{{ oci_h2o_api_url }}"
+    api_key: "{{ oci_h2o_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_h2o_deploy_model_id }}"
+    name: "{{ oci_h2o_deployment_name }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed
